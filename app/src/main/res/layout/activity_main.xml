@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/kocka1"
             android:layout_weight="1"
-            android:id="@+id/kocka2img"/>
+            android:id="@+id/kocka2img"
+            android:visibility="visible"/>
 
     </LinearLayout>
 
@@ -31,24 +32,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/kocka1btn"
+        android:text="1 Kocka"
         app:layout_constraintTop_toBottomOf="@+id/picContainer"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/kocka2btn"
+        android:text="2 Kocka"
         app:layout_constraintTop_toBottomOf="@+id/kocka1btn"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/throwBtn"
+        android:text="Dobas"
         app:layout_constraintTop_toBottomOf="@id/kocka2btn"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resetBtn"
+        android:text="reset"
         app:layout_constraintTop_toBottomOf="@+id/throwBtn"/>
 
     <TextView
