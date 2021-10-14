@@ -56,10 +56,17 @@
         android:text="reset"
         app:layout_constraintTop_toBottomOf="@+id/throwBtn"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameBtn"
+        app:layout_constraintTop_toBottomOf="@id/resetBtn"
+        android:text="Kocka Poker Jatek"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scoreDisplay"
-        app:layout_constraintTop_toBottomOf="@+id/resetBtn"/>
+        app:layout_constraintTop_toBottomOf="@+id/gameBtn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
