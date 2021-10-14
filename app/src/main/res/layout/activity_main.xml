@@ -6,13 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/picContainer">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/kocka1"
+            android:layout_weight="1"
+            android:id="@+id/kocka1img"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/kocka1"
+            android:layout_weight="1"
+            android:id="@+id/kocka2img"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kocka1btn"
+        app:layout_constraintTop_toBottomOf="@+id/picContainer"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kocka2btn"
+        app:layout_constraintTop_toBottomOf="@+id/kocka1btn"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/throwBtn"
+        app:layout_constraintTop_toBottomOf="@id/kocka2btn"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/resetBtn"
+        app:layout_constraintTop_toBottomOf="@+id/throwBtn"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scoreDisplay"
+        app:layout_constraintTop_toBottomOf="@+id/resetBtn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
