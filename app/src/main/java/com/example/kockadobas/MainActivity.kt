@@ -3,16 +3,13 @@ package com.example.kockadobas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var kocka1img: ImageView
-    private lateinit var kocka2img: ImageView
+    private lateinit var kocka1img: ImageButton
+    private lateinit var kocka2img: ImageButton
     private lateinit var scoreDisplay: TextView
     private lateinit var kocka1btn: Button
     private lateinit var kocka2btn: Button
@@ -47,6 +44,12 @@ class MainActivity : AppCompatActivity() {
 
         throwBtn.setOnClickListener {
             diceThrow()
+            if (numOfKocka == 2) {
+                val sum = kocka1val + kocka2val
+                scoreDisplay.append("($kocka1val + $kocka2val) $sum \n")
+            } else {
+                scoreDisplay.append("$kocka1val \n")
+            }
         }
 
         resetBtn.setOnClickListener {
@@ -57,29 +60,13 @@ class MainActivity : AppCompatActivity() {
         gameBtn.setOnClickListener {
             val dialog = newGameAlert.create()
             dialog.show()
-            var click = false
-            var click2 = false
+
             throwBtn.setOnClickListener {
                 diceThrow()
-                click = true
-            }
-
-            if (click) {
-                Toast.makeText(this, "Valassz kockat amit ujra szeretnel dobni", Toast.LENGTH_LONG).show()
-                // TODO: 2021. 10. 14. change imageView to ImageButton and make onclick events 
-                if (click2) {
-                    val playerVal = kocka1val + kocka2val
-                    if (enemyVal > playerVal) {
-                        val dialog = gameComplete.create()
-                            dialog.setTitle("Vesztettel")
-                            dialog.show()
-                    }
-                    else {
-                        val dialog = gameComplete.create()
-                        dialog.setTitle("Nyertel")
-                        dialog.show()
-                    }
-                }
+                scoreDisplay.append("Ellenfel: $enemyVal \n")
+                val sum = kocka1val + kocka2val
+                scoreDisplay.append("Jatekos elso: ($kocka1val + $kocka2val) $sum \n")
+                game()
             }
         }
     }
@@ -102,13 +89,13 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton("nem") {_, _ ->}
         newGameAlert = AlertDialog.Builder(this@MainActivity)
             .setTitle("Uj Jatek")
-            .setMessage("Szeretne uj jatekot kezdeni?/nJatszani csak 2 kockaval lehet")
+            .setMessage("Szeretne uj jatekot kezdeni? Jatszani csak 2 kockaval lehet")
             .setPositiveButton("igen") {_, _ -> newGame()}
-            .setNegativeButton("nem") {_, _ ->}
+            .setNegativeButton("nem") {_, _ -> reset()}
         gameComplete = AlertDialog.Builder(this)
             .setMessage("Szeretnel ujra jatszani?")
             .setPositiveButton("igen") {_, _ -> newGame()}
-            .setNegativeButton("nem") {_, _ ->}
+            .setNegativeButton("nem") {_, _ -> reset()}
     }
 
     private fun diceThrow() {
@@ -133,9 +120,6 @@ class MainActivity : AppCompatActivity() {
                 5 -> kocka2img.setImageResource(R.drawable.kocka5)
                 6 -> kocka2img.setImageResource(R.drawable.kocka6)
             }
-
-            val sum = kocka1val + kocka2val
-            scoreDisplay.append("($kocka1val + $kocka2val) $sum \n")
         }
         else {
             kocka1val = rnd.nextInt(6)+1
@@ -148,8 +132,30 @@ class MainActivity : AppCompatActivity() {
                 5 -> kocka1img.setImageResource(R.drawable.kocka5)
                 6 -> kocka1img.setImageResource(R.drawable.kocka6)
             }
+        }
+    }
 
-            scoreDisplay.append("$kocka1val \n")
+    private fun dice1Throw() {
+        kocka1val = rnd.nextInt(6)+1
+        when(kocka1val) {
+            1 -> kocka1img.setImageResource(R.drawable.kocka1)
+            2 -> kocka1img.setImageResource(R.drawable.kocka2)
+            3 -> kocka1img.setImageResource(R.drawable.kocka3)
+            4 -> kocka1img.setImageResource(R.drawable.kocka4)
+            5 -> kocka1img.setImageResource(R.drawable.kocka5)
+            6 -> kocka1img.setImageResource(R.drawable.kocka6)
+        }
+    }
+
+    private fun dice2Throw() {
+        kocka2val = rnd.nextInt(6)+1
+        when(kocka2val) {
+            1 -> kocka2img.setImageResource(R.drawable.kocka1)
+            2 -> kocka2img.setImageResource(R.drawable.kocka2)
+            3 -> kocka2img.setImageResource(R.drawable.kocka3)
+            4 -> kocka2img.setImageResource(R.drawable.kocka4)
+            5 -> kocka2img.setImageResource(R.drawable.kocka5)
+            6 -> kocka2img.setImageResource(R.drawable.kocka6)
         }
     }
 
@@ -158,11 +164,60 @@ class MainActivity : AppCompatActivity() {
         kocka2img.visibility = View.VISIBLE
         kocka1img.setImageResource(R.drawable.kocka1)
         kocka2img.setImageResource(R.drawable.kocka1)
+
+        throwBtn.setOnClickListener {
+            diceThrow()
+            if (numOfKocka == 2) {
+                val sum = kocka1val + kocka2val
+                scoreDisplay.append("($kocka1val + $kocka2val) $sum \n")
+            } else {
+                scoreDisplay.append("$kocka1val \n")
+            }
+        }
     }
 
     private fun newGame() {
         scoreDisplay.text = ""
+        numOfKocka = 2
+        kocka1img.setImageResource(R.drawable.kocka1)
+        kocka2img.setImageResource(R.drawable.kocka1)
+        kocka2img.visibility = View.VISIBLE
         Toast.makeText(this@MainActivity, "Dobj", Toast.LENGTH_SHORT).show()
         enemyVal = (rnd.nextInt(6)+1) + (rnd.nextInt(6)+1)
+    }
+
+    private fun game() {
+        Toast.makeText(this, "Valassz kockat amit ujra szeretnel dobni", Toast.LENGTH_LONG).show()
+        kocka1img.setOnClickListener {
+            dice1Throw()
+            val sum = kocka1val + kocka2val
+            scoreDisplay.append("Jatekos masodik: ($kocka1val + $kocka2val) $sum \n")
+            game2()
+        }
+        kocka2img.setOnClickListener {
+            dice2Throw()
+            val sum = kocka1val + kocka2val
+            scoreDisplay.append("Jatekos masodik: ($kocka1val + $kocka2val) $sum \n")
+            game2()
+        }
+    }
+
+    private fun game2() {
+        val playerVal = kocka1val + kocka2val
+        if (enemyVal > playerVal) {
+            val dialog = gameComplete.create()
+            dialog.setTitle("Vesztettel")
+            dialog.show()
+        }
+        else if (enemyVal == playerVal) {
+            val dialog = gameComplete.create()
+            dialog.setTitle("Dontetlen")
+            dialog.show()
+        }
+        else {
+            val dialog = gameComplete.create()
+            dialog.setTitle("Nyertel")
+            dialog.show()
+        }
     }
 }
